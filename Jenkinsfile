@@ -8,17 +8,18 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Deploy to EC2') {
             steps {
-                sh 'python3 --version || true'
-                sh 'pip3 --version || true'
-                echo 'Build stage running...'
-            }
-        }
+                sh '''
+                cd /var/lib/jenkins/workspace/service-request-portal
+                echo "Deploying app..."
 
-        stage('Deploy') {
-            steps {
-                echo 'Deploy stage placeholder...'
+                # Stop old process (ignore error)
+                pkill -f submit_request.py || true
+
+                # Run backend
+                nohup python3 backend/submit_request.py > output.log 2>&1 &
+                '''
             }
         }
     }
