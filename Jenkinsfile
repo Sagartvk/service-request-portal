@@ -8,17 +8,17 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Build') {
             steps {
-                sh 'sudo apt update'
-                sh 'sudo apt install -y python3-pip'
-                sh 'pip3 install -r backend/requirements.txt'
+                sh 'python3 --version || true'
+                sh 'pip3 --version || true'
+                echo 'Build stage running...'
             }
         }
 
-        stage('Run App (Test)') {
+        stage('Deploy') {
             steps {
-                sh 'echo Running backend...'
+                echo 'Deploy stage placeholder...'
             }
         }
     }
