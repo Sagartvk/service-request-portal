@@ -2,21 +2,23 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repo') {
+        stage('Checkout') {
             steps {
                 echo 'Cloning code...'
             }
         }
 
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
-                echo 'Build stage running...'
+                sh 'sudo apt update'
+                sh 'sudo apt install -y python3-pip'
+                sh 'pip3 install -r backend/requirements.txt'
             }
         }
 
-        stage('Deploy') {
+        stage('Run App (Test)') {
             steps {
-                echo 'Deploying application...'
+                sh 'echo Running backend...'
             }
         }
     }
