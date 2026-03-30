@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Track</title>
+  <title>Track Request</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<header class="navbar">
+  <h1>Service Portal</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="submit.html">Submit</a>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="card">
     <h2>Track Request</h2>
 
-    <input id="id" placeholder="Enter ID">
-    <button onclick="track()">Track</button>
+    <input type="text" id="requestId" placeholder="Enter Request ID">
+    <button onclick="trackRequest()">Track</button>
 
-    <pre id="result"></pre>
+    <div id="result"></div>
+  </div>
+</div>
 
-    <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

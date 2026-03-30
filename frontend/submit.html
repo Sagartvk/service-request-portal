@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Submit</title>
+  <title>Submit Request</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<header class="navbar">
+  <h1>Service Portal</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="track.html">Track</a>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="card">
     <h2>Submit Request</h2>
 
-    <form id="form">
-        <input id="name" placeholder="Name"><br>
-        <input id="email" placeholder="Email"><br>
-        <input id="location" placeholder="Location"><br>
-        <textarea id="desc" placeholder="Description"></textarea><br>
-        <button type="submit">Submit</button>
-    </form>
+    <input type="text" id="name" placeholder="Your Name">
+    <input type="text" id="location" placeholder="Location">
+    <textarea id="description" placeholder="Describe your issue"></textarea>
 
-    <p id="msg"></p>
+    <button onclick="submitRequest()">Submit</button>
 
-    <script src="app.js"></script>
+    <div id="message"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
