@@ -1,25 +1,31 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.10-slim'
+            args '-u root'
+        }
+    }
 
     environment {
-        AWS_REGION = 'us-east-2'
-        S3_BUCKET = 'sagar-service-request-portal-2026'
-        CLOUDFRONT_DISTRIBUTION_ID = 'E22CABI5YY6I6F'
-        SUBMIT_LAMBDA = 'submitRequestFunction'
-        TRACK_LAMBDA = 'trackRequestFunction'
+        AWS_DEFAULT_REGION = 'us-east-2'
     }
 
     stages {
-        stage('Checkout') {
+
+        stage('Install Tools') {
             steps {
-                echo 'Using code from GitHub'
+                sh '''
+                apt-get update
+                apt-get install -y zip curl unzip
+                pip install awscli boto3
+                '''
             }
         }
 
         stage('Deploy Frontend to S3') {
             steps {
                 sh '''
-                    aws s3 sync frontend/ s3://$S3_BUCKET --delete --region $AWS_REGION
+                aws s3 sync frontend/ s3://sagar-service-request-portal-2026 --delete
                 '''
             }
         }
@@ -27,8 +33,8 @@ pipeline {
         stage('Package Submit Lambda') {
             steps {
                 sh '''
-                    cd backend
-                    zip -j submit_request.zip submit_request.py
+                cd backend
+                zip -j submit_request.zip submit_request.py
                 '''
             }
         }
@@ -36,10 +42,9 @@ pipeline {
         stage('Deploy Submit Lambda') {
             steps {
                 sh '''
-                    aws lambda update-function-code \
-                      --function-name $SUBMIT_LAMBDA \
-                      --zip-file fileb://backend/submit_request.zip \
-                      --region $AWS_REGION
+                aws lambda update-function-code \
+                --function-name submitRequestFunction \
+                --zip-file fileb://backend/submit_request.zip
                 '''
             }
         }
@@ -47,8 +52,8 @@ pipeline {
         stage('Package Track Lambda') {
             steps {
                 sh '''
-                    cd backend
-                    zip -j track_request.zip track_request.py
+                cd backend
+                zip -j track_request.zip track_request.py
                 '''
             }
         }
@@ -56,20 +61,9 @@ pipeline {
         stage('Deploy Track Lambda') {
             steps {
                 sh '''
-                    aws lambda update-function-code \
-                      --function-name $TRACK_LAMBDA \
-                      --zip-file fileb://backend/track_request.zip \
-                      --region $AWS_REGION
-                '''
-            }
-        }
-
-        stage('Invalidate CloudFront Cache') {
-            steps {
-                sh '''
-                    aws cloudfront create-invalidation \
-                      --distribution-id $CLOUDFRONT_DISTRIBUTION_ID \
-                      --paths "/*"
+                aws lambda update-function-code \
+                --function-name trackRequestFunction \
+                --zip-file fileb://backend/track_request.zip
                 '''
             }
         }
