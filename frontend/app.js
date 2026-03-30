@@ -3,6 +3,7 @@ const API_BASE = "https://w4o4c1pz78.execute-api.us-east-2.amazonaws.com/prod";
 /* SUBMIT */
 async function submitRequest() {
   const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
   const location = document.getElementById("location").value;
   const description = document.getElementById("description").value;
 
@@ -14,21 +15,20 @@ async function submitRequest() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ name, location, description })
+      body: JSON.stringify({ name, email, location, description })
     });
 
     const data = await response.json();
 
     messageDiv.innerHTML = `
       <div class="message success">
-        ✅ Request Submitted! <br>
-        <strong>ID:</strong> ${data.request_id}
+        ✅ Submitted! <br>ID: ${data.request_id}
       </div>
     `;
-  } catch (error) {
+  } catch (err) {
     messageDiv.innerHTML = `
       <div class="message error">
-        ❌ Failed to submit request
+        ❌ Submission failed
       </div>
     `;
   }

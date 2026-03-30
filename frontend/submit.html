@@ -6,23 +6,31 @@
 </head>
 <body>
 
-<header class="navbar">
+<div class="navbar">
   <h1>Service Portal</h1>
-  <nav>
+  <div>
     <a href="index.html">Home</a>
     <a href="track.html">Track</a>
-  </nav>
-</header>
+  </div>
+</div>
 
 <div class="container">
   <div class="card">
     <h2>Submit Request</h2>
 
-    <input type="text" id="name" placeholder="Your Name">
-    <input type="text" id="location" placeholder="Location">
+    <label>Name</label>
+    <input type="text" id="name" placeholder="Enter your name">
+
+    <label>Email</label>
+    <input type="email" id="email" placeholder="Enter your email">
+
+    <label>Location</label>
+    <input type="text" id="location" placeholder="Enter location">
+
+    <label>Description</label>
     <textarea id="description" placeholder="Describe your issue"></textarea>
 
-    <button onclick="submitRequest()">Submit</button>
+    <button onclick="submitRequest()">Submit Request</button>
 
     <div id="message"></div>
   </div>

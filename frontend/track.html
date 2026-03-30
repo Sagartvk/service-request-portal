@@ -6,19 +6,21 @@
 </head>
 <body>
 
-<header class="navbar">
+<div class="navbar">
   <h1>Service Portal</h1>
-  <nav>
+  <div>
     <a href="index.html">Home</a>
     <a href="submit.html">Submit</a>
-  </nav>
-</header>
+  </div>
+</div>
 
 <div class="container">
   <div class="card">
     <h2>Track Request</h2>
 
-    <input type="text" id="requestId" placeholder="Enter Request ID">
+    <label>Request ID</label>
+    <input type="text" id="requestId" placeholder="Enter your request ID">
+
     <button onclick="trackRequest()">Track</button>
 
     <div id="result"></div>
