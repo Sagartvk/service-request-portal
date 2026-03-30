@@ -1,43 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Submit Request</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Request – Service Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <nav class="navbar">
-  <div class="navbar-content">
-    <div class="logo">Service Portal</div>
-    <div class="nav-links">
-      <a href="index.html" class="nav-link">Home</a>
-      <a href="submit.html" class="nav-link active">Submit</a>
-      <a href="track.html" class="nav-link">Track</a>
+    <div class="navbar-content">
+        <div class="logo">
+            <div class="logo-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                    <path d="M2 17l10 5 10-5"/>
+                    <path d="M2 12l10 5 10-5"/>
+                </svg>
+            </div>
+            Service Portal
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="submit.html" class="nav-link active">Submit</a>
+            <a href="track.html" class="nav-link">Track</a>
+        </div>
     </div>
-  </div>
 </nav>
 
 <main class="main">
-  <div class="card">
-    <div class="card-header">
-      <h1 class="card-title">Submit Request</h1>
+    <div class="card">
+        <div class="card-header" style="text-align:left;">
+            <h1 class="card-title">Submit Request</h1>
+            <p class="card-description">Fill in the details below to submit your service request.</p>
+        </div>
+
+        <form id="submitForm">
+            <div class="form-group">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-input" id="name" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" id="email" placeholder="Enter your email address" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Location</label>
+                <input type="text" class="form-input" id="location" placeholder="Enter your location">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <textarea class="form-textarea" id="description" placeholder="Describe your issue or request in detail..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+        </form>
+
+        <div class="error-text" id="submitError">Something went wrong. Please try again.</div>
+
+        <div class="success-message" id="successMessage">
+            <div class="success-icon">✓</div>
+            <div class="success-title">Request Submitted Successfully!</div>
+            <p class="card-description">Your request has been received and will be processed shortly.</p>
+            <div class="request-id-display">
+                <div class="request-id-label">Your Request ID</div>
+                <div class="request-id-value" id="generatedId"></div>
+            </div>
+        </div>
     </div>
-
-    <form id="submitForm">
-      <input class="form-input" id="name" placeholder="Name" required>
-      <input class="form-input" id="email" placeholder="Email" required>
-      <input class="form-input" id="location" placeholder="Location">
-      <textarea class="form-textarea" id="description" placeholder="Description"></textarea>
-
-      <button class="btn btn-primary">Submit</button>
-    </form>
-
-    <div class="success-message" id="successMessage">
-      <div class="success-title">Submitted ✅</div>
-      <div id="generatedId"></div>
-    </div>
-
-  </div>
 </main>
 
 <script src="app.js"></script>

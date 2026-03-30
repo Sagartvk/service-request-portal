@@ -4,20 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Service Portal</title>
-
-    <!-- FONT -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar">
     <div class="navbar-content">
-        <div class="logo">Service Portal</div>
-
+        <div class="logo">
+            <div class="logo-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                    <path d="M2 17l10 5 10-5"/>
+                    <path d="M2 12l10 5 10-5"/>
+                </svg>
+            </div>
+            Service Portal
+        </div>
         <div class="nav-links">
             <a href="index.html" class="nav-link active">Home</a>
             <a href="submit.html" class="nav-link">Submit</a>
@@ -26,24 +29,16 @@
     </div>
 </nav>
 
-<!-- MAIN -->
 <main class="main">
     <div class="card home-card">
         <div class="home-icon">🚀</div>
-
-        <h1 class="card-title">Welcome to Service Portal</h1>
-        <p class="card-description">
-            Submit and track your service requests easily.
-        </p>
-
+        <div class="card-header">
+            <h1 class="card-title">Welcome to Service Portal</h1>
+            <p class="card-description">Submit and track your service requests easily. Get quick support and stay updated on your request status.</p>
+        </div>
         <div class="home-actions">
-            <a href="submit.html">
-                <button class="btn btn-primary">Submit Request</button>
-            </a>
-
-            <a href="track.html">
-                <button class="btn btn-secondary">Track Request</button>
-            </a>
+            <a href="submit.html" class="btn btn-primary" style="text-decoration:none;text-align:center;">Submit Request</a>
+            <a href="track.html" class="btn btn-secondary" style="text-decoration:none;text-align:center;">Track Request</a>
         </div>
     </div>
 </main>
