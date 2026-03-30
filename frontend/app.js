@@ -5,7 +5,7 @@ document.getElementById("submitForm")?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const btn = e.target.querySelector("button[type=submit]");
-    btn.textContent = "Submitting…";
+    btn.textContent = "Submitting";
     btn.disabled = true;
 
     const errorEl = document.getElementById("submitError");
@@ -54,7 +54,7 @@ async function trackRequest() {
     if (!id) return;
 
     const btn = document.querySelector(".btn-primary");
-    btn.textContent = "Tracking…";
+    btn.textContent = "Tracking";
     btn.disabled    = true;
 
     try {
