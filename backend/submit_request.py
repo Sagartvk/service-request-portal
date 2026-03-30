@@ -4,7 +4,7 @@ import uuid
 from datetime import datetime
 
 dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('service_requests') # make sure table name matches
+table = dynamodb.Table('service_requests')
 
 def lambda_handler(event, context):
     try:
@@ -12,22 +12,17 @@ def lambda_handler(event, context):
 
         name = body.get('name')
         location = body.get('location')
+        description = body.get('description')
+        email = body.get('email')
 
-        if not name or not location:
-            return {
-                'statusCode': 400,
-                'headers': {
-                    'Access-Control-Allow-Origin': '*'
-                },
-                'body': json.dumps({'error': 'Missing name or location'})
-            }
-
-        request_id = str(uuid.uuid4())
+        request_id = str(uuid.uuid4())[:8]   # shorter ID
 
         item = {
             'request_id': request_id,
             'name': name,
             'location': location,
+            'description': description,
+            'email': email,
             'status': 'Pending',
             'created_at': datetime.utcnow().isoformat()
         }
