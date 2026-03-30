@@ -4,7 +4,7 @@ import uuid
 from datetime import datetime
 
 dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('ServiceRequests')  # make sure table name matches
+table = dynamodb.Table('service_requests') # make sure table name matches
 
 def lambda_handler(event, context):
     try:
