@@ -6,26 +6,29 @@
 </head>
 <body>
 
-<div class="navbar">
-  <h1>Service Portal</h1>
-  <div>
-    <a href="index.html">Home</a>
-    <a href="submit.html">Submit</a>
+<nav class="navbar">
+  <div class="navbar-content">
+    <div class="logo">Service Portal</div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="submit.html" class="nav-link">Submit</a>
+      <a href="track.html" class="nav-link active">Track</a>
+    </div>
   </div>
-</div>
+</nav>
 
-<div class="container">
+<main class="main">
   <div class="card">
+
     <h2>Track Request</h2>
 
-    <label>Request ID</label>
-    <input type="text" id="requestId" placeholder="Enter your request ID">
-
-    <button onclick="trackRequest()">Track</button>
+    <input id="requestId" class="form-input" placeholder="Enter ID">
+    <button onclick="trackRequest()" class="btn btn-primary">Track</button>
 
     <div id="result"></div>
+
   </div>
-</div>
+</main>
 
 <script src="app.js"></script>
 </body>

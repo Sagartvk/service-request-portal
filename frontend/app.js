@@ -1,71 +1,54 @@
 const API_BASE = "https://w4o4c1pz78.execute-api.us-east-2.amazonaws.com/prod";
 
 /* SUBMIT */
-async function submitRequest() {
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const location = document.getElementById("location").value;
-  const description = document.getElementById("description").value;
+document.getElementById("submitForm")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-  const messageDiv = document.getElementById("message");
+  const data = {
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    location: document.getElementById("location").value,
+    description: document.getElementById("description").value
+  };
 
-  try {
-    const response = await fetch(`${API_BASE}/submit`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ name, email, location, description })
-    });
+  const res = await fetch(`${API_BASE}/submit`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
 
-    const data = await response.json();
+  const result = await res.json();
 
-    messageDiv.innerHTML = `
-      <div class="message success">
-        ✅ Submitted! <br>ID: ${data.request_id}
-      </div>
-    `;
-  } catch (err) {
-    messageDiv.innerHTML = `
-      <div class="message error">
-        ❌ Submission failed
-      </div>
-    `;
-  }
-}
+  document.getElementById("submitForm").style.display = "none";
+  document.getElementById("successMessage").classList.add("visible");
+  document.getElementById("generatedId").innerText = result.request_id;
+});
+
 
 /* TRACK */
 async function trackRequest() {
   const id = document.getElementById("requestId").value;
+
+  const res = await fetch(`${API_BASE}/track?id=${id}`);
+  const data = await res.json();
+
   const resultDiv = document.getElementById("result");
 
-  try {
-    const response = await fetch(`${API_BASE}/track?id=${id}`);
-    const data = await response.json();
-
-    if (data.error || data.message) {
-      resultDiv.innerHTML = `
-        <div class="message error">
-          ❌ ${data.error || data.message}
-        </div>
-      `;
-      return;
-    }
-
-    resultDiv.innerHTML = `
-      <div class="card">
-        <p><strong>ID:</strong> ${data.request_id}</p>
-        <p><strong>Name:</strong> ${data.name}</p>
-        <p><strong>Location:</strong> ${data.location}</p>
-        <p><strong>Description:</strong> ${data.description}</p>
-        <p><strong>Status:</strong> ${data.status}</p>
-      </div>
-    `;
-  } catch (error) {
-    resultDiv.innerHTML = `
-      <div class="message error">
-        ❌ Error fetching request
-      </div>
-    `;
+  if (data.error || data.message) {
+    resultDiv.innerHTML = `<p style="color:red;">Error loading request</p>`;
+    return;
   }
+
+  resultDiv.innerHTML = `
+    <div class="status-card visible">
+      <div class="status-header">
+        <span>${data.request_id}</span>
+        <span>${data.status}</span>
+      </div>
+      <p><b>Name:</b> ${data.name}</p>
+      <p><b>Email:</b> ${data.email}</p>
+      <p><b>Location:</b> ${data.location}</p>
+      <p><b>Description:</b> ${data.description}</p>
+    </div>
+  `;
 }
