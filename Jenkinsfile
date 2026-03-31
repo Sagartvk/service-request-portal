@@ -2,17 +2,17 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION = "us-east-2"
-        S3_BUCKET = "sagar-service-request-portal-2026"
-        LAMBDA_SUBMIT = "submitRequestFunction"
-        LAMBDA_TRACK = "trackRequestFunction"
+        AWS_REGION = 'us-east-2'
+        S3_BUCKET = 'sagar-service-request-portal-2026'
+        SUBMIT_FUNCTION = 'submitRequestFunction'
+        TRACK_FUNCTION = 'trackRequestFunction'
     }
 
     stages {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/Sagartvk/service-request-portal.git'
+                git 'https://github.com/Sagartvk/service-request-portal.git'
             }
         }
 
@@ -26,9 +26,9 @@ pipeline {
             steps {
                 sh '''
                 aws s3 sync . s3://$S3_BUCKET \
-                --exclude ".git/*" \
-                --exclude "lambda/*" \
-                --delete
+                  --exclude ".git/*" \
+                  --exclude "backend/*" \
+                  --delete
                 '''
             }
         }
@@ -36,15 +36,13 @@ pipeline {
         stage('Deploy Lambda - Submit') {
             steps {
                 sh '''
-                cd lambda
-
-                rm -f submit.zip
-                zip submit.zip submit.py
+                cd backend
+                zip submit.zip submit_request.py
 
                 aws lambda update-function-code \
-                --function-name $LAMBDA_SUBMIT \
-                --zip-file fileb://submit.zip \
-                --region $AWS_REGION
+                  --function-name $SUBMIT_FUNCTION \
+                  --zip-file fileb://submit.zip \
+                  --region $AWS_REGION
                 '''
             }
         }
@@ -52,15 +50,13 @@ pipeline {
         stage('Deploy Lambda - Track') {
             steps {
                 sh '''
-                cd lambda
-
-                rm -f track.zip
-                zip track.zip track.py
+                cd backend
+                zip track.zip track_request.py
 
                 aws lambda update-function-code \
-                --function-name $LAMBDA_TRACK \
-                --zip-file fileb://track.zip \
-                --region $AWS_REGION
+                  --function-name $TRACK_FUNCTION \
+                  --zip-file fileb://track.zip \
+                  --region $AWS_REGION
                 '''
             }
         }
@@ -68,10 +64,10 @@ pipeline {
 
     post {
         success {
-            echo "✅ Deployment Successful!"
+            echo '✅ Deployment Successful!'
         }
         failure {
-            echo "❌ Deployment Failed!"
+            echo '❌ Deployment Failed!'
         }
     }
 }
