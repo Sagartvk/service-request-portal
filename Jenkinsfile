@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION = "us-east-2"   // change if needed
-        S3_BUCKET = "sagar-service-request-portal-2026"  // 🔥 your bucket name
+        AWS_REGION = "us-east-2"
+        S3_BUCKET = "sagar-service-request-portal-2026"
         LAMBDA_SUBMIT = "submitRequestFunction"
         LAMBDA_TRACK = "trackRequestFunction"
     }
@@ -27,7 +27,8 @@ pipeline {
                 sh '''
                 aws s3 sync . s3://$S3_BUCKET \
                 --exclude ".git/*" \
-                --exclude "lambda/*"
+                --exclude "lambda/*" \
+                --delete
                 '''
             }
         }
@@ -36,7 +37,10 @@ pipeline {
             steps {
                 sh '''
                 cd lambda
-                zip -r submit.zip submit.py
+
+                rm -f submit.zip
+                zip submit.zip submit.py
+
                 aws lambda update-function-code \
                 --function-name $LAMBDA_SUBMIT \
                 --zip-file fileb://submit.zip \
@@ -49,7 +53,10 @@ pipeline {
             steps {
                 sh '''
                 cd lambda
-                zip -r track.zip track.py
+
+                rm -f track.zip
+                zip track.zip track.py
+
                 aws lambda update-function-code \
                 --function-name $LAMBDA_TRACK \
                 --zip-file fileb://track.zip \
