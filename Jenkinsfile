@@ -4,70 +4,74 @@ pipeline {
     environment {
         AWS_REGION = 'us-east-2'
         S3_BUCKET = 'sagar-service-request-portal-2026'
-        SUBMIT_FUNCTION = 'submitRequestFunction'
-        TRACK_FUNCTION = 'trackRequestFunction'
+        CLOUDFRONT_DISTRIBUTION_ID = 'E22CABI5YY6I6F'
+        SUBMIT_LAMBDA = 'submitRequestFunction'
+        TRACK_LAMBDA = 'trackRequestFunction'
     }
 
     stages {
-
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                git 'https://github.com/Sagartvk/service-request-portal.git'
-            }
-        }
-
-        stage('Verify AWS CLI') {
-            steps {
-                sh 'aws --version'
+                echo 'Using code from GitHub'
             }
         }
 
         stage('Deploy Frontend to S3') {
             steps {
                 sh '''
-                aws s3 sync . s3://$S3_BUCKET \
-                  --exclude ".git/*" \
-                  --exclude "backend/*" \
-                  --delete
+                    aws s3 sync frontend/ s3://$S3_BUCKET --delete --region $AWS_REGION
                 '''
             }
         }
 
-        stage('Deploy Lambda - Submit') {
+        stage('Package Submit Lambda') {
             steps {
                 sh '''
-                cd backend
-                zip submit.zip submit_request.py
-
-                aws lambda update-function-code \
-                  --function-name $SUBMIT_FUNCTION \
-                  --zip-file fileb://submit.zip \
-                  --region $AWS_REGION
+                    cd backend
+                    zip -j submit_request.zip submit_request.py
                 '''
             }
         }
 
-        stage('Deploy Lambda - Track') {
+        stage('Deploy Submit Lambda') {
             steps {
                 sh '''
-                cd backend
-                zip track.zip track_request.py
-
-                aws lambda update-function-code \
-                  --function-name $TRACK_FUNCTION \
-                  --zip-file fileb://track.zip \
-                  --region $AWS_REGION
+                    aws lambda update-function-code \
+                      --function-name $SUBMIT_LAMBDA \
+                      --zip-file fileb://backend/submit_request.zip \
+                      --region $AWS_REGION
                 '''
             }
         }
-    }
 
-    post {
-        success {
-            echo '✅ Deployment Successful!'
+        stage('Package Track Lambda') {
+            steps {
+                sh '''
+                    cd backend
+                    zip -j track_request.zip track_request.py
+                '''
+            }
         }
-        failure {
-            echo '❌ Deployment Failed!'
+
+        stage('Deploy Track Lambda') {
+            steps {
+                sh '''
+                    aws lambda update-function-code \
+                      --function-name $TRACK_LAMBDA \
+                      --zip-file fileb://backend/track_request.zip \
+                      --region $AWS_REGION
+                '''
+            }
+        }
+
+        stage('Invalidate CloudFront Cache') {
+            steps {
+                sh '''
+                    aws cloudfront create-invalidation \
+                      --distribution-id $CLOUDFRONT_DISTRIBUTION_ID \
+                      --paths "/*"
+                '''
+            }
         }
     }
 }
