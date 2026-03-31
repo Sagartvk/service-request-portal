@@ -21,11 +21,22 @@
             </div>
             Service Portal
         </div>
+        <!-- Desktop links -->
         <div class="nav-links">
             <a href="index.html" class="nav-link active">Home</a>
             <a href="submit.html" class="nav-link">Submit</a>
             <a href="track.html" class="nav-link">Track</a>
         </div>
+        <!-- Hamburger -->
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+    <!-- Mobile drawer -->
+    <div class="mobile-nav" id="mobileNav">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="submit.html" class="nav-link">Submit</a>
+        <a href="track.html" class="nav-link">Track</a>
     </div>
 </nav>
 
@@ -37,11 +48,19 @@
             <p class="card-description">Submit and track your service requests easily. Get quick support and stay updated on your request status.</p>
         </div>
         <div class="home-actions">
-            <a href="submit.html" class="btn btn-primary" style="text-decoration:none;text-align:center;">Submit Request</a>
-            <a href="track.html" class="btn btn-secondary" style="text-decoration:none;text-align:center;">Track Request</a>
+            <a href="submit.html" class="btn btn-primary">Submit Request</a>
+            <a href="track.html" class="btn btn-secondary">Track Request</a>
         </div>
     </div>
 </main>
 
+<script>
+    const btn = document.getElementById('hamburger');
+    const nav = document.getElementById('mobileNav');
+    btn.addEventListener('click', () => {
+        btn.classList.toggle('open');
+        nav.classList.toggle('open');
+    });
+</script>
 </body>
 </html>

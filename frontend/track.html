@@ -26,6 +26,14 @@
             <a href="submit.html" class="nav-link">Submit</a>
             <a href="track.html" class="nav-link active">Track</a>
         </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="submit.html" class="nav-link">Submit</a>
+        <a href="track.html" class="nav-link active">Track</a>
     </div>
 </nav>
 
@@ -72,5 +80,13 @@
 </main>
 
 <script src="app.js"></script>
+<script>
+    const btn = document.getElementById('hamburger');
+    const nav = document.getElementById('mobileNav');
+    btn.addEventListener('click', () => {
+        btn.classList.toggle('open');
+        nav.classList.toggle('open');
+    });
+</script>
 </body>
 </html>
