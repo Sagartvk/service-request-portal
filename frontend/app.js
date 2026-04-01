@@ -25,9 +25,13 @@ document.getElementById("submitForm")?.addEventListener("submit", async (e) => {
     });
     if (!res.ok) throw new Error();
     const result = await res.json();
+
+    // Handles any key the API might return: requestId, request_id, id, etc.
+    const id = result.requestId || result.request_id || result.id || Object.values(result)[0] || "—";
+
     document.getElementById("submitForm").style.display = "none";
     document.getElementById("successBox").classList.add("show");
-    document.getElementById("genId").textContent = result.requestId;
+    document.getElementById("genId").textContent = id;
   } catch {
     err.classList.add("show");
     btn.disabled = false;
@@ -55,7 +59,7 @@ async function trackRequest() {
     const data = await res.json();
     if (data.error || data.message) throw new Error();
 
-    document.getElementById("dispId").textContent    = data.request_id;
+    document.getElementById("dispId").textContent    = data.request_id || data.requestId || id;
     document.getElementById("dispName").textContent  = data.name        || "—";
     document.getElementById("dispEmail").textContent = data.email       || "—";
     document.getElementById("dispLoc").textContent   = data.location    || "—";
@@ -72,15 +76,15 @@ async function trackRequest() {
     }
 
     // progress indicator
-    const dots  = ["pd1","pd2","pd3"].map(id => document.getElementById(id));
-    const lines = ["pl1","pl2"].map(id => document.getElementById(id));
-    const steps = ["ps1","ps2","ps3"].map(id => document.getElementById(id));
+    const dots  = ["pd1","pd2","pd3"].map(i => document.getElementById(i));
+    const lines = ["pl1","pl2"].map(i => document.getElementById(i));
+    const steps = ["ps1","ps2","ps3"].map(i => document.getElementById(i));
     dots.forEach(d  => d.classList.remove("done","active"));
     lines.forEach(l => l.classList.remove("done"));
     steps.forEach(s => s.classList.remove("done","active"));
 
     if (status.includes("progress")) {
-      steps[0].classList.add("done");  dots[0].classList.add("done");  lines[0].classList.add("done");
+      steps[0].classList.add("done");   dots[0].classList.add("done");  lines[0].classList.add("done");
       steps[1].classList.add("active"); dots[1].classList.add("active");
     } else if (status.includes("complet") || status.includes("resolv") || status.includes("done")) {
       steps.forEach((s,i) => { s.classList.add("done"); dots[i].classList.add("done"); });
