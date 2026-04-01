@@ -1,92 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Track Request – Service Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ServiceDesk – Track Request</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<nav class="navbar">
-    <div class="navbar-content">
-        <div class="logo">
-            <div class="logo-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                    <path d="M2 17l10 5 10-5"/>
-                    <path d="M2 12l10 5 10-5"/>
-                </svg>
-            </div>
-            Service Portal
+<div class="topbar">
+  <div class="topbar-logo"><div class="dot"></div> ServiceDesk</div>
+  <button class="hamburger" id="hbtn"><span></span><span></span><span></span></button>
+</div>
+<div class="mobile-nav-drawer" id="mDrawer">
+  <a href="index.html">🏠 Home</a>
+  <a href="submit.html">✏️ Submit</a>
+  <a href="track.html" class="active">🔍 Track</a>
+</div>
+
+<div class="shell">
+  <aside class="sidebar">
+    <div class="grid-pattern"></div>
+    <div class="blob blob1"></div><div class="blob blob2"></div><div class="blob blob3"></div>
+    <div class="sidebar-inner">
+      <a href="index.html" class="s-logo">
+        <div class="s-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+            <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+          </svg>
         </div>
-        <div class="nav-links">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="submit.html" class="nav-link">Submit</a>
-            <a href="track.html" class="nav-link active">Track</a>
+        <span class="s-logo-text">Service<span>Desk</span></span>
+      </a>
+      <div class="s-hero">
+        <div class="s-tag"><span class="s-tag-dot"></span> IT Support Portal</div>
+        <div class="s-title">Your requests,<br><span class="hl">handled fast.</span></div>
+        <div class="s-desc">Submit tickets, track progress, and get resolutions — all in one beautifully simple workspace.</div>
+        <div class="feats">
+          <div class="feat"><div class="feat-icon coral">⚡</div><div class="feat-text">Instant ticket submission</div></div>
+          <div class="feat"><div class="feat-icon teal">📍</div><div class="feat-text">Real-time status tracking</div></div>
+          <div class="feat"><div class="feat-icon yellow">🔒</div><div class="feat-text">Secure &amp; private requests</div></div>
         </div>
-        <button class="hamburger" id="hamburger" aria-label="Menu">
-            <span></span><span></span><span></span>
-        </button>
+      </div>
+      <div class="s-footer">© 2025 ServiceDesk · All rights reserved</div>
     </div>
-    <div class="mobile-nav" id="mobileNav">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="submit.html" class="nav-link">Submit</a>
-        <a href="track.html" class="nav-link active">Track</a>
+  </aside>
+
+  <div class="content">
+    <div class="page-tabs">
+      <a href="index.html" class="tab">🏠 Home</a>
+      <a href="submit.html" class="tab">✏️ Submit</a>
+      <a href="track.html" class="tab active">🔍 Track</a>
     </div>
-</nav>
 
-<main class="main">
-    <div class="card">
-        <div class="card-header" style="text-align:left;">
-            <h1 class="card-title">Track Request</h1>
-            <p class="card-description">Enter your request ID to check the current status.</p>
-        </div>
+    <div class="page active">
+      <div class="track-layout">
 
-        <div class="form-group">
-            <label class="form-label">Request ID</label>
-            <input type="text" class="form-input" id="requestId" placeholder="e.g., REQ-2024-XXXXX">
-        </div>
-        <button onclick="trackRequest()" class="btn btn-primary">Track Status</button>
+        <div class="search-panel">
+          <div class="panel-title">Track Your Request</div>
+          <div class="panel-sub">Paste your Request ID below to get the latest status.</div>
 
-        <div class="error-text" id="trackError">Request not found. Please check the ID and try again.</div>
+          <div class="track-input-wrap">
+            <span class="track-icon">🔍</span>
+            <input class="track-input" id="requestId" placeholder="REQ-2025-XXXXX">
+          </div>
+          <button class="track-btn" id="trackBtn" onclick="trackRequest()">Check Status</button>
+          <div class="err-bar" id="trackErr">Request not found. Double-check your ID.</div>
 
-        <div class="status-card" id="statusCard">
-            <div class="status-header">
-                <span class="status-id" id="displayId"></span>
-                <span class="status-badge" id="statusBadge"></span>
+          <div style="margin-top:1.75rem;padding-top:1.5rem;border-top:1px solid var(--border)">
+            <div class="recent-label" style="margin-bottom:.75rem">Quick tips</div>
+            <div class="tips" style="gap:8px">
+              <div class="tip" style="background:var(--mist);border-color:var(--border);color:var(--slate)"><span class="tip-dot" style="background:var(--coral)"></span> IDs look like REQ-2025-XXXXX</div>
+              <div class="tip" style="background:var(--mist);border-color:var(--border);color:var(--slate)"><span class="tip-dot" style="background:var(--teal)"></span> Check your email for the ID</div>
             </div>
-            <div class="status-details">
-                <div class="status-row">
-                    <span class="status-label">Name</span>
-                    <span class="status-value" id="displayName">—</span>
-                </div>
-                <div class="status-row">
-                    <span class="status-label">Email</span>
-                    <span class="status-value" id="displayEmail">—</span>
-                </div>
-                <div class="status-row">
-                    <span class="status-label">Location</span>
-                    <span class="status-value" id="displayLocation">—</span>
-                </div>
-                <div class="status-row">
-                    <span class="status-label">Description</span>
-                    <span class="status-value" id="displayDescription">—</span>
-                </div>
-            </div>
+          </div>
         </div>
+
+        <div class="result-panel">
+          <div class="empty-state" id="emptyState">
+            <div class="empty-icon">📭</div>
+            <div class="empty-label">No result yet</div>
+            <div class="empty-sub">Enter a Request ID on the left<br>and hit Check Status</div>
+          </div>
+
+          <div class="result-inner" id="resultInner">
+            <div class="result-header2">
+              <div>
+                <div style="font-size:.7rem;font-weight:700;color:var(--slate);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Request ID</div>
+                <div class="result-id2" id="dispId">—</div>
+              </div>
+              <div class="chip" id="dispChip">—</div>
+            </div>
+            <div class="rfield"><div class="rfield-label">Name</div><div class="rfield-val" id="dispName">—</div></div>
+            <div class="rfield"><div class="rfield-label">Email</div><div class="rfield-val" id="dispEmail">—</div></div>
+            <div class="rfield"><div class="rfield-label">Location</div><div class="rfield-val" id="dispLoc">—</div></div>
+            <div class="rfield"><div class="rfield-label">Description</div><div class="rfield-val" id="dispDesc">—</div></div>
+
+            <div class="progress-bar-wrap">
+              <div class="progress-label">Progress</div>
+              <div class="progress-steps">
+                <div class="p-step" id="ps1"><div class="p-dot" id="pd1">1</div><div class="p-label2">Submitted</div></div>
+                <div class="p-line" id="pl1"></div>
+                <div class="p-step" id="ps2"><div class="p-dot" id="pd2">2</div><div class="p-label2">In Review</div></div>
+                <div class="p-line" id="pl2"></div>
+                <div class="p-step" id="ps3"><div class="p-dot" id="pd3">3</div><div class="p-label2">Resolved</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-</main>
+  </div>
+</div>
 
 <script src="app.js"></script>
 <script>
-    const btn = document.getElementById('hamburger');
-    const nav = document.getElementById('mobileNav');
-    btn.addEventListener('click', () => {
-        btn.classList.toggle('open');
-        nav.classList.toggle('open');
-    });
+  const hbtn = document.getElementById('hbtn');
+  const drawer = document.getElementById('mDrawer');
+  hbtn.addEventListener('click', () => { hbtn.classList.toggle('open'); drawer.classList.toggle('open'); });
+  document.getElementById('requestId')?.addEventListener('keydown', e => { if(e.key==='Enter') trackRequest(); });
 </script>
 </body>
 </html>

@@ -1,66 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ServiceDesk – Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<nav class="navbar">
-    <div class="navbar-content">
-        <div class="logo">
-            <div class="logo-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                    <path d="M2 17l10 5 10-5"/>
-                    <path d="M2 12l10 5 10-5"/>
-                </svg>
-            </div>
-            Service Portal
-        </div>
-        <!-- Desktop links -->
-        <div class="nav-links">
-            <a href="index.html" class="nav-link active">Home</a>
-            <a href="submit.html" class="nav-link">Submit</a>
-            <a href="track.html" class="nav-link">Track</a>
-        </div>
-        <!-- Hamburger -->
-        <button class="hamburger" id="hamburger" aria-label="Menu">
-            <span></span><span></span><span></span>
-        </button>
-    </div>
-    <!-- Mobile drawer -->
-    <div class="mobile-nav" id="mobileNav">
-        <a href="index.html" class="nav-link active">Home</a>
-        <a href="submit.html" class="nav-link">Submit</a>
-        <a href="track.html" class="nav-link">Track</a>
-    </div>
-</nav>
+<div class="topbar">
+  <div class="topbar-logo"><div class="dot"></div> ServiceDesk</div>
+  <button class="hamburger" id="hbtn"><span></span><span></span><span></span></button>
+</div>
+<div class="mobile-nav-drawer" id="mDrawer">
+  <a href="index.html" class="active">🏠 Home</a>
+  <a href="submit.html">✏️ Submit</a>
+  <a href="track.html">🔍 Track</a>
+</div>
 
-<main class="main">
-    <div class="card home-card">
-        <div class="home-icon">🚀</div>
-        <div class="card-header">
-            <h1 class="card-title">Welcome to Service Portal</h1>
-            <p class="card-description">Submit and track your service requests easily. Get quick support and stay updated on your request status.</p>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="grid-pattern"></div>
+    <div class="blob blob1"></div><div class="blob blob2"></div><div class="blob blob3"></div>
+    <div class="sidebar-inner">
+      <a href="index.html" class="s-logo">
+        <div class="s-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+            <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+          </svg>
         </div>
-        <div class="home-actions">
-            <a href="submit.html" class="btn btn-primary">Submit Request</a>
-            <a href="track.html" class="btn btn-secondary">Track Request</a>
+        <span class="s-logo-text">Service<span>Desk</span></span>
+      </a>
+      <div class="s-hero">
+        <div class="s-tag"><span class="s-tag-dot"></span> IT Support Portal</div>
+        <div class="s-title">Your requests,<br><span class="hl">handled fast.</span></div>
+        <div class="s-desc">Submit tickets, track progress, and get resolutions — all in one beautifully simple workspace.</div>
+        <div class="feats">
+          <div class="feat"><div class="feat-icon coral">⚡</div><div class="feat-text">Instant ticket submission</div></div>
+          <div class="feat"><div class="feat-icon teal">📍</div><div class="feat-text">Real-time status tracking</div></div>
+          <div class="feat"><div class="feat-icon yellow">🔒</div><div class="feat-text">Secure &amp; private requests</div></div>
         </div>
+      </div>
+      <div class="s-footer">© 2025 ServiceDesk · All rights reserved</div>
     </div>
-</main>
+  </aside>
+
+  <div class="content">
+    <div class="page-tabs">
+      <a href="index.html" class="tab active">🏠 Home</a>
+      <a href="submit.html" class="tab">✏️ Submit</a>
+      <a href="track.html" class="tab">🔍 Track</a>
+    </div>
+
+    <div class="page active">
+      <div class="home-grid">
+        <div class="hcard">
+          <div class="hcard-top"><div class="hcard-icon coral">📋</div><span class="hcard-trend up">↑ 12%</span></div>
+          <div class="hcard-num">248</div><div class="hcard-label">Total Requests</div>
+        </div>
+        <div class="hcard">
+          <div class="hcard-top"><div class="hcard-icon teal">✅</div><span class="hcard-trend up">↑ 8%</span></div>
+          <div class="hcard-num">193</div><div class="hcard-label">Resolved</div>
+        </div>
+        <div class="hcard">
+          <div class="hcard-top"><div class="hcard-icon yellow">⏳</div><span class="hcard-trend warn">● Active</span></div>
+          <div class="hcard-num">31</div><div class="hcard-label">In Progress</div>
+        </div>
+        <div class="hcard">
+          <div class="hcard-top"><div class="hcard-icon ink">⚡</div><span class="hcard-trend up">↓ faster</span></div>
+          <div class="hcard-num">4.2h</div><div class="hcard-label">Avg. Response</div>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <a href="submit.html" class="qa primary" style="text-decoration:none">
+          <div class="qa-icon">✏️</div>
+          <div><div class="qa-label">Submit a Request</div><div class="qa-sub">Report an issue or request</div></div>
+        </a>
+        <a href="track.html" class="qa secondary" style="text-decoration:none">
+          <div class="qa-icon">🔍</div>
+          <div><div class="qa-label">Track Status</div><div class="qa-sub">Check your request status</div></div>
+        </a>
+      </div>
+
+      <div class="recent-label">Recent Requests</div>
+      <div class="req-list">
+        <div class="req-row">
+          <div class="req-info"><div class="req-avatar av1">AK</div><div><div class="req-name">Arun Kumar</div><div class="req-id">REQ-2025-00142</div></div></div>
+          <span class="chip chip-done">Resolved</span>
+        </div>
+        <div class="req-row">
+          <div class="req-info"><div class="req-avatar av2">PS</div><div><div class="req-name">Priya Sharma</div><div class="req-id">REQ-2025-00141</div></div></div>
+          <span class="chip chip-progress">In Progress</span>
+        </div>
+        <div class="req-row">
+          <div class="req-info"><div class="req-avatar av3">MN</div><div><div class="req-name">Mohammed Nair</div><div class="req-id">REQ-2025-00140</div></div></div>
+          <span class="chip chip-pending">Pending</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
-    const btn = document.getElementById('hamburger');
-    const nav = document.getElementById('mobileNav');
-    btn.addEventListener('click', () => {
-        btn.classList.toggle('open');
-        nav.classList.toggle('open');
-    });
+  const hbtn = document.getElementById('hbtn');
+  const drawer = document.getElementById('mDrawer');
+  hbtn.addEventListener('click', () => { hbtn.classList.toggle('open'); drawer.classList.toggle('open'); });
 </script>
 </body>
 </html>
