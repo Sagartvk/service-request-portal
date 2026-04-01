@@ -26,8 +26,8 @@ document.getElementById("submitForm")?.addEventListener("submit", async (e) => {
     if (!res.ok) throw new Error();
     const result = await res.json();
 
-    // Handles any key the API might return: requestId, request_id, id, etc.
-    const id = result.requestId || result.request_id || result.id || Object.values(result)[0] || "—";
+    // Backend returns { request_id: "..." }
+    const id = result.request_id || result.requestId || result.id || "—";
 
     document.getElementById("submitForm").style.display = "none";
     document.getElementById("successBox").classList.add("show");
@@ -59,7 +59,7 @@ async function trackRequest() {
     const data = await res.json();
     if (data.error || data.message) throw new Error();
 
-    document.getElementById("dispId").textContent    = data.request_id || data.requestId || id;
+    document.getElementById("dispId").textContent    = data.request_id || id;
     document.getElementById("dispName").textContent  = data.name        || "—";
     document.getElementById("dispEmail").textContent = data.email       || "—";
     document.getElementById("dispLoc").textContent   = data.location    || "—";
@@ -75,7 +75,6 @@ async function trackRequest() {
       chip.textContent = "Pending";     chip.className = "chip chip-pending";
     }
 
-    // progress indicator
     const dots  = ["pd1","pd2","pd3"].map(i => document.getElementById(i));
     const lines = ["pl1","pl2"].map(i => document.getElementById(i));
     const steps = ["ps1","ps2","ps3"].map(i => document.getElementById(i));
