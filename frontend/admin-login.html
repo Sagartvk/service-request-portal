@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ServiceDesk – Admin Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --coral:#FF6B6B;--coral-dark:#e85555;--teal:#00C9A7;
+  --ink:#1a1a2e;--slate:#64748b;--mist:#f1f5f9;
+  --white:#fff;--border:#e2e8f0;
+  --font-display:'Plus Jakarta Sans',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+}
+html,body{height:100%;font-family:var(--font-body);background:var(--ink);overflow:hidden}
+
+/* blobs */
+body::before{
+  content:'';position:fixed;width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,107,107,.12),transparent 70%);
+  top:-150px;right:-100px;pointer-events:none;
+  animation:drift1 10s ease-in-out infinite;
+}
+body::after{
+  content:'';position:fixed;width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,201,167,.1),transparent 70%);
+  bottom:-100px;left:-100px;pointer-events:none;
+  animation:drift2 13s ease-in-out infinite;
+}
+@keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,30px)}}
+@keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-30px)}}
+
+/* grid overlay */
+.grid{
+  position:fixed;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+
+.shell{
+  position:relative;z-index:1;
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:1.5rem;
+}
+
+.card{
+  width:100%;max-width:420px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:24px;padding:2.75rem 2.25rem;
+  backdrop-filter:blur(20px);
+  box-shadow:0 32px 64px rgba(0,0,0,.4);
+  animation:slidein .4s ease;
+}
+@keyframes slidein{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* logo */
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:2rem;justify-content:center}
+.logo-icon{
+  width:42px;height:42px;border-radius:12px;
+  background:linear-gradient(135deg,var(--coral),#ff9a9a);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(255,107,107,.45);
+}
+.logo-icon svg{width:20px;height:20px}
+.logo-text{font-family:var(--font-display);font-weight:800;font-size:1.2rem;color:#fff}
+.logo-text span{color:var(--coral)}
+
+/* heading */
+.heading{text-align:center;margin-bottom:2rem}
+.heading h1{font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#fff;letter-spacing:-.03em;margin-bottom:.4rem}
+.heading p{font-size:.875rem;color:rgba(255,255,255,.45);font-weight:300}
+
+.admin-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 12px;border-radius:20px;margin-bottom:.75rem;
+  background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.25);
+  font-size:.7rem;font-weight:700;color:var(--coral);text-transform:uppercase;letter-spacing:.07em;
+}
+.chip-dot{width:5px;height:5px;border-radius:50%;background:var(--coral);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* form */
+.field{margin-bottom:1.25rem}
+.field label{display:block;font-size:.73rem;font-weight:700;color:rgba(255,255,255,.5);
+  text-transform:uppercase;letter-spacing:.07em;margin-bottom:.5rem}
+.field-wrap{position:relative}
+.field-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:.9rem;pointer-events:none}
+input{
+  width:100%;padding:12px 14px 12px 38px;
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);
+  border-radius:12px;color:#fff;font-size:max(16px,.9rem);font-family:var(--font-body);
+  outline:none;transition:.2s;
+}
+input::placeholder{color:rgba(255,255,255,.25)}
+input:focus{border-color:rgba(255,107,107,.6);background:rgba(255,255,255,.09);box-shadow:0 0 0 3px rgba(255,107,107,.1)}
+
+/* password toggle */
+.toggle-pw{
+  position:absolute;right:13px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;color:rgba(255,255,255,.35);
+  font-size:.85rem;padding:2px;
+}
+.toggle-pw:hover{color:rgba(255,255,255,.7)}
+
+/* error */
+.err-bar{
+  display:none;padding:10px 14px;border-radius:10px;margin-bottom:1rem;
+  background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.25);
+  font-size:.82rem;color:#fca5a5;text-align:center;
+  animation:slidein .25s ease;
+}
+.err-bar.show{display:block}
+
+/* login btn */
+.login-btn{
+  width:100%;padding:13px;border-radius:12px;
+  background:linear-gradient(135deg,var(--coral),#ff4f4f);
+  color:#fff;font-size:.9rem;font-weight:700;border:none;cursor:pointer;
+  font-family:var(--font-body);letter-spacing:-.01em;
+  box-shadow:0 4px 20px rgba(255,107,107,.4);
+  transition:all .2s;margin-top:.25rem;
+}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,107,107,.5)}
+.login-btn:active{transform:translateY(0)}
+.login-btn:disabled{opacity:.6;transform:none;cursor:not-allowed}
+
+/* back link */
+.back{display:block;text-align:center;margin-top:1.5rem;font-size:.8rem;
+  color:rgba(255,255,255,.35);text-decoration:none;transition:.2s}
+.back:hover{color:rgba(255,255,255,.65)}
+
+/* hint */
+.hint{
+  margin-top:1.5rem;padding:12px 14px;border-radius:10px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  font-size:.75rem;color:rgba(255,255,255,.3);text-align:center;line-height:1.6;
+}
+.hint b{color:rgba(255,255,255,.55);font-weight:600}
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<div class="shell">
+  <div class="card">
+
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+          <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+        </svg>
+      </div>
+      <span class="logo-text">Service<span>Desk</span></span>
+    </div>
+
+    <div class="heading">
+      <div class="admin-chip"><span class="chip-dot"></span> Admin Access Only</div>
+      <h1>Welcome back</h1>
+      <p>Sign in to access the admin dashboard</p>
+    </div>
+
+    <div class="err-bar" id="errBar">⚠️ Incorrect username or password.</div>
+
+    <form id="loginForm">
+      <div class="field">
+        <label>Username</label>
+        <div class="field-wrap">
+          <span class="field-icon">👤</span>
+          <input type="text" id="username" placeholder="Enter admin username" autocomplete="username" required>
+        </div>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <div class="field-wrap">
+          <span class="field-icon">🔒</span>
+          <input type="password" id="password" placeholder="Enter password" autocomplete="current-password" required>
+          <button type="button" class="toggle-pw" id="togglePw" onclick="togglePassword()">👁</button>
+        </div>
+      </div>
+
+      <button type="submit" class="login-btn" id="loginBtn">Sign In →</button>
+    </form>
+
+    <a href="index.html" class="back">← Back to portal</a>
+
+    <div class="hint">
+      Default credentials &nbsp;|&nbsp; <b>admin</b> / <b>admin@123</b>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── CREDENTIALS (change these) ──
+const ADMIN_USER = 'admin';
+const ADMIN_PASS = 'admin@123';
+
+// Already logged in? skip login page
+if (sessionStorage.getItem('sd_admin_auth') === 'true') {
+  window.location.href = 'admin.html';
+}
+
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const btn  = document.getElementById('loginBtn');
+  const err  = document.getElementById('errBar');
+  const user = document.getElementById('username').value.trim();
+  const pass = document.getElementById('password').value;
+
+  err.classList.remove('show');
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+
+  // Simulate slight delay for UX
+  setTimeout(() => {
+    if (user === ADMIN_USER && pass === ADMIN_PASS) {
+      sessionStorage.setItem('sd_admin_auth', 'true');
+      sessionStorage.setItem('sd_admin_user', user);
+      window.location.href = 'admin.html';
+    } else {
+      err.classList.add('show');
+      btn.disabled = false;
+      btn.textContent = 'Sign In →';
+      document.getElementById('password').value = '';
+      document.getElementById('password').focus();
+    }
+  }, 600);
+});
+
+function togglePassword() {
+  const inp = document.getElementById('password');
+  const btn = document.getElementById('togglePw');
+  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+  else { inp.type = 'password'; btn.textContent = '👁'; }
+}
+</script>
+</body>
+</html>

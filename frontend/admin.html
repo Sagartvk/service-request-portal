@@ -199,6 +199,12 @@ tr:hover td{background:#fafbff}
 </style>
 </head>
 <body>
+<script>
+// Auth guard — redirect to login if not authenticated
+if (sessionStorage.getItem("sd_admin_auth") !== "true") {
+  window.location.href = "admin-login.html";
+}
+</script>
 
 <div class="admin-shell">
 
@@ -240,10 +246,11 @@ tr:hover td{background:#fafbff}
     <div class="admin-topbar">
       <div>
         <div class="admin-topbar-title">Admin Dashboard <span class="admin-badge">Admin</span></div>
-        <div class="admin-topbar-sub">Manage and update service requests</div>
+        <div class="admin-topbar-sub">Logged in as <b id="adminUser"></b> · Manage and update service requests</div>
       </div>
       <div class="admin-actions">
         <a href="submit.html" class="admin-refresh-btn" style="text-decoration:none">✏️ New Request</a>
+        <button class="admin-refresh-btn" onclick="logout()" style="border-color:#fecaca;color:#ef4444;">🚪 Logout</button>
         <button class="admin-refresh-btn" onclick="loadRequests()" id="refreshBtn">
           <span class="refresh-icon">🔄</span> Refresh
         </button>
@@ -461,6 +468,17 @@ async function saveStatus(id) {
     setTimeout(() => { btn.textContent='Save'; btn.style.background=''; btn.classList.remove('saving'); }, 2000);
   }
 }
+
+// Logout
+function logout() {
+  sessionStorage.removeItem("sd_admin_auth");
+  sessionStorage.removeItem("sd_admin_user");
+  window.location.href = "admin-login.html";
+}
+
+// Show logged-in username
+const adminUserEl = document.getElementById('adminUser');
+if (adminUserEl) adminUserEl.textContent = sessionStorage.getItem('sd_admin_user') || 'admin';
 
 // Load on page open
 loadRequests();
